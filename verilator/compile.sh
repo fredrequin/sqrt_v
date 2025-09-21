@@ -9,7 +9,7 @@ CLOCK_OPT=\
 "-clk v.clk"
  
 #Verilog top module
-TOP_FILE=sqrt_12s
+TOP_FILE=sqrt_16s
 
 #C++ support files
 CPP_FILES=\

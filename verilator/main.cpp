@@ -1,4 +1,6 @@
-#include "Vsqrt_12s.h"
+#include <cmath>
+
+#include "Vsqrt_16s.h"
 #include "verilated.h"
 #include "clock_gen/clock_gen.h"
 
@@ -54,7 +56,7 @@ int main(int argc, char **argv, char **env)
     }
 
     // Init top verilog instance
-    Vsqrt_12s* top = new Vsqrt_12s;
+    Vsqrt_16s* top = new Vsqrt_16s;
 
 
     // Initialize clock generator
@@ -92,6 +94,15 @@ int main(int argc, char **argv, char **env)
         {
             top->vld_i = 1;
             top->data_i++;
+            if (top->vld_o)
+            {
+                double     in  = 65536.0 * ((top->data_i - 16) & 0xFFFF);
+                vluint16_t out = (vluint16_t)sqrt(in);
+                if (top->data_o != out)
+                {
+                    printf("Data mismatch : %04X != %04X (in = %04X)\n", top->data_o, out, top->data_i - 16);
+                }
+            }
         }
 
         prev_clk = top->clk;
